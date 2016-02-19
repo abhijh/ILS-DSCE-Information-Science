@@ -1,23 +1,23 @@
-import React from 'react';
+ import React from 'react';
 const FMUI = require('formsy-material-ui');
 const { FormsyCheckbox, FormsyDate, FormsyRadio, FormsyRadioGroup, FormsySelect, FormsyText, FormsyTime, FormsyToggle } = FMUI;
 import RaisedButton from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
 import DropDownMenu from 'material-ui/lib/DropDownMenu';
-
+import SchemaService from './SchemaService.jsx'
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
 
-var AddBookForm = React.createClass({
+var BorrowBookForm = React.createClass({
   getInitialState: function() {
     return {value: 'staff'};
   },
   submitForm: function (model) {
-    // Submit your validated form
+    SchemaService.borrowerRegister(model);
     console.log("Model: ", model);
   },
-  handleChange: function(event, index, value){this.setState({value});},
+  handleChange: function(event, index, value){this.setState({value: event.target.value});},
   render: function() {
     return (
       <div>
@@ -34,20 +34,21 @@ var AddBookForm = React.createClass({
             required
             floatingLabelText="User ID"
             />
-            <br/>
-            <FormsySelect
+          <br/>
+          <FormsySelect
             value={this.state.value}
             onChange={this.handleChange}
             name='roles'
-            required
             floatingLabelText="Roles">
             <MenuItem value={'staff'} primaryText="Staff" />
-            <MenuItem value={'student'} primaryText="Student" />
+            <MenuItem
+              value={'student'}
+              primaryText="Student" />
           </FormsySelect>
           <br/>
           <RaisedButton
             type="submit"
-            label="Issue"
+            label="Register"
             primary={true} />
         </Formsy.Form>
       </div>
@@ -56,4 +57,4 @@ var AddBookForm = React.createClass({
 
 });
 
-module.exports = AddBookForm;
+module.exports = BorrowBookForm;

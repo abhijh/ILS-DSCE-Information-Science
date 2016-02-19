@@ -3,10 +3,11 @@ const FMUI = require('formsy-material-ui');
 const { FormsyCheckbox, FormsyDate, FormsyRadio, FormsyRadioGroup, FormsySelect, FormsyText, FormsyTime, FormsyToggle } = FMUI;
 import RaisedButton from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
+import SchemaService from './SchemaService.jsx'
 
 var AddBookForm = React.createClass({
   submitForm: function (model) {
-    // Submit your validated form
+    SchemaService.bookRegister(model);
     console.log("Model: ", model);
   },
   render: function() {
@@ -58,7 +59,7 @@ var AddBookForm = React.createClass({
           <br/>
           <RaisedButton
             type="submit"
-            label="Issue"
+            label="Add Book"
             primary={true} />
         </Formsy.Form>
       </div>
