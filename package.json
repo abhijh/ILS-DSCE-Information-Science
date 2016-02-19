@@ -1,0 +1,19 @@
+{
+  "name": "ils",
+  "version": "1.0.0",
+  "description": "An Integrated Library Management System",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.13.4",
+    "express-generator": "^4.13.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Library"
+  ],
+  "author": "abhinav_jha@outlook.com, farhaan.bukhsh@gmail.com, sanskargupta1995@gmail.com, rohit.k.1223@gmail.com\u001c",
+  "license": "MIT"
+}
