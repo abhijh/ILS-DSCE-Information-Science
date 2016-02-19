@@ -8,6 +8,7 @@ import Card from 'material-ui/lib/card/card';
 import IssueForm from './jsx/classes/Issue.jsx'
 import ReturnBookForm from './jsx/classes/ReturnBook.jsx'
 import AddBookForm from './jsx/classes/AddBook.jsx'
+import RegisterBorrower from './jsx/classes/Register.jsx'
 import { browserHistory } from 'react-router'
 
 ReactDOM.render((
@@ -22,7 +23,7 @@ ReactDOM.render((
         <Route name="issue" path="/issue" component={IssueForm}/>
         <Route name="returnbook" path="/returnbook" component={ReturnBookForm}/>
         <Route name="add" path="/add" component={AddBookForm}/>
-
+        <Route name="register" path="/register" component={RegisterBorrower}/>
       </Router>
     </Card>
   </div>
