@@ -4,17 +4,17 @@ const { FormsyCheckbox, FormsyDate, FormsyRadio, FormsyRadioGroup, FormsySelect,
 import RaisedButton from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
 import DropDownMenu from 'material-ui/lib/DropDownMenu';
-
+import SchemaService from './SchemaService.jsx'
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
 
-var AddBookForm = React.createClass({
+var BorrowBookForm = React.createClass({
   getInitialState: function() {
     return {value: 'staff'};
   },
   submitForm: function (model) {
-    // Submit your validated form
+    SchemaService.borrowerRegister(model);
     console.log("Model: ", model);
   },
   handleChange: function(event, index, value){this.setState({value: event.target.value});},
@@ -57,4 +57,4 @@ var AddBookForm = React.createClass({
 
 });
 
-module.exports = AddBookForm;
+module.exports = BorrowBookForm;
