@@ -58,7 +58,7 @@ var AddBookForm = React.createClass({
           <br/>
           <RaisedButton
             type="submit"
-            label="Issue"
+            label="Add Book"
             primary={true} />
         </Formsy.Form>
       </div>

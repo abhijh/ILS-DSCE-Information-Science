@@ -26,7 +26,7 @@ var ReturnBookForm = React.createClass({
             floatingLabelText="Book ID"
           />
         <br/>
-        <RaisedButton type="submit" label="Issue" primary={true} />
+        <RaisedButton type="submit" label="Return" primary={true} />
         </Formsy.Form>
       </div>
     );

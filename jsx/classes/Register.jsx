@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 const FMUI = require('formsy-material-ui');
 const { FormsyCheckbox, FormsyDate, FormsyRadio, FormsyRadioGroup, FormsySelect, FormsyText, FormsyTime, FormsyToggle } = FMUI;
 import RaisedButton from 'material-ui/lib/raised-button';
@@ -17,7 +17,7 @@ var AddBookForm = React.createClass({
     // Submit your validated form
     console.log("Model: ", model);
   },
-  handleChange: function(event, index, value){this.setState({value});},
+  handleChange: function(event, index, value){this.setState({value: event.target.value});},
   render: function() {
     return (
       <div>
@@ -34,20 +34,21 @@ var AddBookForm = React.createClass({
             required
             floatingLabelText="User ID"
             />
-            <br/>
-            <FormsySelect
+          <br/>
+          <FormsySelect
             value={this.state.value}
             onChange={this.handleChange}
             name='roles'
-            required
             floatingLabelText="Roles">
             <MenuItem value={'staff'} primaryText="Staff" />
-            <MenuItem value={'student'} primaryText="Student" />
+            <MenuItem
+              value={'student'}
+              primaryText="Student" />
           </FormsySelect>
           <br/>
           <RaisedButton
             type="submit"
-            label="Issue"
+            label="Register"
             primary={true} />
         </Formsy.Form>
       </div>
