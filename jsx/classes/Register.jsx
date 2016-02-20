@@ -21,6 +21,7 @@ var BorrowBookForm = React.createClass({
   render: function() {
     return (
       <div>
+        <h1>Register User</h1>
         <Formsy.Form
           onValidSubmit={this.submitForm}>
           <FormsyText

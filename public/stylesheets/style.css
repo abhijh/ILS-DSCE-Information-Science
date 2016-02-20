@@ -7,10 +7,12 @@ a {
 }
 
 .cardStyle {
-  background-color: #3D3F52;
-  padding:
 }
 
 .buttonDesign{
   padding: 10px;
+}
+
+#leftPanel{
+  text-align: center;
 }

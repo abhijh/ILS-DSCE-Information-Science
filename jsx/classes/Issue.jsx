@@ -13,6 +13,7 @@ var IssueForm = React.createClass({
   render: function() {
     return (
       <div>
+        <h1>Issue Form</h1>
         <Formsy.Form
           onValidSubmit={this.submitForm}>
         <FormsyText
@@ -24,7 +25,7 @@ var IssueForm = React.createClass({
          <FormsyText
             name="bid"
             required
-            floatingLabelText="Book ID"
+            floatingLabelText="Borrower ID"
           />
         <br/>
         <RaisedButton type="submit" label="Issue" primary={true} />

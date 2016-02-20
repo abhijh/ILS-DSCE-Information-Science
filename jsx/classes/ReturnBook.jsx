@@ -13,6 +13,7 @@ var ReturnBookForm = React.createClass({
   render: function() {
     return (
       <div>
+        <h1>Return Book</h1>
         <Formsy.Form
           onValidSubmit={this.submitForm}>
         <FormsyText
