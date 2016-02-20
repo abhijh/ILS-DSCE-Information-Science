@@ -13,6 +13,7 @@ var AddBookForm = React.createClass({
   render: function() {
     return (
       <div>
+        <h1>Add Book</h1>
         <Formsy.Form
           onValidSubmit={this.submitForm}>
           <FormsyText
@@ -37,12 +38,6 @@ var AddBookForm = React.createClass({
             name="author"
             required
             floatingLabelText="Author"
-            />
-          <br/>
-          <FormsyText
-            name="publication"
-            required
-            floatingLabelText="Publication"
             />
           <br/>
           <FormsyText
