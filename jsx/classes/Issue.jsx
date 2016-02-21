@@ -4,11 +4,19 @@ const { FormsyCheckbox, FormsyDate, FormsyRadio, FormsyRadioGroup, FormsySelect,
 import RaisedButton from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
 import SchemaService from './SchemaService.jsx'
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import MyRawTheme from './MyTheme.jsx';
 
 var IssueForm = React.createClass({
   submitForm: function (model) {
   SchemaService.issueBook(model);
   console.log("Model: ", model);
+  },
+  childContextTypes: {
+    muiTheme: React.PropTypes.object
+  },
+  getChildContext() {
+    return {muiTheme: ThemeManager.getMuiTheme(MyRawTheme)};
   },
   render: function() {
     return (
@@ -28,7 +36,7 @@ var IssueForm = React.createClass({
             floatingLabelText="Borrower ID"
           />
         <br/>
-        <RaisedButton type="submit" label="Issue" primary={true} />
+        <RaisedButton type="submit" label="Issue" secondary={true} />
         </Formsy.Form>
       </div>
     );

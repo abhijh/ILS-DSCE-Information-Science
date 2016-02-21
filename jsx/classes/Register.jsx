@@ -6,12 +6,18 @@ import TextField from 'material-ui/lib/text-field';
 import DropDownMenu from 'material-ui/lib/DropDownMenu';
 import SchemaService from './SchemaService.jsx'
 import MenuItem from 'material-ui/lib/menus/menu-item';
-import injectTapEventPlugin from "react-tap-event-plugin";
-injectTapEventPlugin();
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import MyRawTheme from './MyTheme.jsx';
 
 var BorrowBookForm = React.createClass({
   getInitialState: function() {
     return {value: 'staff'};
+  },
+  childContextTypes: {
+    muiTheme: React.PropTypes.object
+  },
+  getChildContext() {
+    return {muiTheme: ThemeManager.getMuiTheme(MyRawTheme)};
   },
   submitForm: function (model) {
     SchemaService.borrowerRegister(model);
@@ -50,7 +56,7 @@ var BorrowBookForm = React.createClass({
           <RaisedButton
             type="submit"
             label="Register"
-            primary={true} />
+            secondary={true} />
         </Formsy.Form>
       </div>
     );
