@@ -24,13 +24,14 @@ app.use(express.static(path.join(__dirname, '/')));
 
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://192.168.1.131/library');
+mongoose.connect('mongodb://0.0.0.0/library');
 
 var borrowers = mongoose.model('borrowers', { name: String, role : String, id : String, booksIssued : [{ name : String, accessionNumber: String, issuedOn : String }] });
 var books = mongoose.model('books', { name: String, accessionNumber : Number, category : String, author : String, publication : String, edition : String, status : String });
 
 rest.post('/api/registerbook/', function(req, res) {
     var book = new books(req.body);
+    console.log(req.body, book)
     book.save(function (err) {
         if (err) {
             console.log('Error occured while registering new book.'+err);
@@ -58,8 +59,9 @@ rest.post('/api/registerborrower/', function(req, res) {
 rest.post('/api/issuebook/', function(req, res) {
     var bid = req.body.bid;
     var accessionNumber = req.body.accessionNumber;
-
-
+    function checkBookIssued (accessionNumber, id) {
+        //Check book issued to this borrower or not
+    }
     borrowers.findOne({ 'id' : bid }, function (err, borrower) {
         if (err) {
             console.log("Borrower not found.");
@@ -71,7 +73,7 @@ rest.post('/api/issuebook/', function(req, res) {
                     res.badRequest();
                 } else {
                     var datetime = new Date();
-                    borrower.booksIssued = { "accessionNumber" : accessionNumber, "issuedOn" : datetime };
+                    borrower.booksIssued.push({ "accessionNumber" : accessionNumber, "issuedOn" : datetime });
                     borrower.save(function (err) {
                         if (err) {
                             console.log('Error occured while issuing book.'+err);
@@ -85,6 +87,8 @@ rest.post('/api/issuebook/', function(req, res) {
         }
     });
 });
+
+
 
 rest.post('/api/returnbook/', function(req, res) {
     var bid = req.body.bid;
@@ -126,6 +130,15 @@ rest.post('/api/returnbook/', function(req, res) {
     });
 });
 
+
+rest.post('/api/getallbooks/', function(req, res) {
+    /*
+    Find all the books and return as json.
+
+
+
+    books.findAll();*/
+});
 
 
 

@@ -31,9 +31,9 @@ var AddBookForm = React.createClass({
             />
           <br/>
           <FormsyText
-            name="acessionName"
+            name="accessionNumber"
             required
-            floatingLabelText="Accession Name"
+            floatingLabelText="Accession Number"
             />
           <br/>
           <FormsyText
