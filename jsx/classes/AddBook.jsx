@@ -4,8 +4,16 @@ const { FormsyCheckbox, FormsyDate, FormsyRadio, FormsyRadioGroup, FormsySelect,
 import RaisedButton from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
 import SchemaService from './SchemaService.jsx'
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import MyRawTheme from './MyTheme.jsx';
 
 var AddBookForm = React.createClass({
+  childContextTypes: {
+    muiTheme: React.PropTypes.object
+  },
+  getChildContext() {
+    return {muiTheme: ThemeManager.getMuiTheme(MyRawTheme)};
+  },
   submitForm: function (model) {
     SchemaService.bookRegister(model);
     console.log("Model: ", model);
@@ -55,7 +63,7 @@ var AddBookForm = React.createClass({
           <RaisedButton
             type="submit"
             label="Add Book"
-            primary={true} />
+            secondary={true} />
         </Formsy.Form>
       </div>
     );
