@@ -31,7 +31,6 @@ var books = mongoose.model('books', { name: String, accessionNumber : Number, ca
 
 rest.post('/api/registerbook/', function(req, res) {
     var book = new books(req.body);
-    console.log(req.body, book)
     book.save(function (err) {
         if (err) {
             console.log('Error occured while registering new book.'+err);
@@ -132,12 +131,12 @@ rest.post('/api/returnbook/', function(req, res) {
 
 
 rest.post('/api/getallbooks/', function(req, res) {
-    /*
-    Find all the books and return as json.
-
-
-
-    books.findAll();*/
+    books.find({}, function (err, book) {
+        if (err || book == null) {
+            res.badRequest()
+        } else 
+            res.ok(book);
+    });
 });
 
 
