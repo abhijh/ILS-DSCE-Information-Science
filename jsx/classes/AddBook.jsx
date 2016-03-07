@@ -4,6 +4,7 @@ const { FormsyCheckbox, FormsyDate, FormsyRadio, FormsyRadioGroup, FormsySelect,
 import RaisedButton from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
 import SchemaService from './SchemaService.jsx'
+import Snackbar from 'material-ui/lib/snackbar';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import MyRawTheme from './MyTheme.jsx';
 
@@ -14,9 +15,30 @@ var AddBookForm = React.createClass({
   getChildContext() {
     return {muiTheme: ThemeManager.getMuiTheme(MyRawTheme)};
   },
+  getInitialState: function(){
+    return {open: false};
+  },
+  handleRequestClose: function(){
+    this.setState({
+      open: false,
+    });
+  },
   submitForm: function (model) {
-    SchemaService.bookRegister(model);
-    console.log("Model: ", model);
+    //var returnValue = SchemaService.bookRegister(model);
+    //console.log(returnValue);
+    $.ajax({
+    type: "POST",
+    url: '/api/registerbook/',
+    data: JSON.stringify(model),
+    success: function() {
+          this.setState({open: true});
+        }.bind(this),
+    error: function(xhr, status, err) {
+       console.error(status, err.toString());
+     }.bind(this)
+
+  });
+  console.log("Model: ", model);
   },
   render: function() {
     return (
@@ -65,6 +87,12 @@ var AddBookForm = React.createClass({
             label="Add Book"
             secondary={true} />
         </Formsy.Form>
+        <Snackbar
+          open={this.state.open}
+          message="Event added to your calendar"
+          autoHideDuration={4000}
+          onRequestClose={this.handleRequestClose}
+        />
       </div>
     );
   }

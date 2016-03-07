@@ -34,7 +34,9 @@ var users = mongoose.model('users', { name: String, username : String, password 
 var books = mongoose.model('books', { name: String, accessionNumber : Number, category : String, author : String, publication : String, edition : String, status : String });
 
 rest.post('/api/registerbook/', function(req, res) {
+    req.body.status = "available";
     var book = new books(req.body);
+    console.log(req.body, book)
     book.save(function (err) {
         if (err) {
             console.log('Error occured while registering new book.'+err);
@@ -135,10 +137,11 @@ rest.post('/api/returnbook/', function(req, res) {
 
 
 rest.post('/api/getallbooks/', function(req, res) {
+
     books.find({}, function (err, book) {
         if (err || book == null) {
             res.badRequest()
-        } else 
+        } else
             res.ok(book);
     });
 });
@@ -174,8 +177,6 @@ app.post('/login',
     // `req.user` contains the authenticated user.
     res.redirect("/"+req.user.privilege+"/"+req.user.username);
 });
-
-
 
 
 app.use('/', routes);
