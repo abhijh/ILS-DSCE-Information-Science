@@ -24,7 +24,6 @@ app.use(express.static(path.join(__dirname, '/')));
 
 
 var mongoose = require('mongoose');
-<<<<<<< HEAD
 mongoose.connect('mongodb://0.0.0.0/library');
 
 var borrowers = mongoose.model('borrowers', { name: String, role : String, id : String, booksIssued : [{ name : String, accessionNumber: String, issuedOn : String }] });
