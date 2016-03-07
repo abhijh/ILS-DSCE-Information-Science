@@ -31,6 +31,7 @@ var borrowers = mongoose.model('borrowers', { name: String, role : String, id : 
 var books = mongoose.model('books', { name: String, accessionNumber : Number, category : String, author : String, publication : String, edition : String, status : String });
 
 rest.post('/api/registerbook/', function(req, res) {
+    req.body.status = "available";
     var book = new books(req.body);
     console.log(req.body, book)
     book.save(function (err) {

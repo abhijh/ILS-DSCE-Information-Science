@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AppBar from 'material-ui/lib/app-bar';
-import Login from './jsx/classes/Login.jsx'
+import PanelLeft from './jsx/classes/PanelLeft.jsx'
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import {Router, Route, IndexRoute, Link} from 'react-router';
 import Card from 'material-ui/lib/card/card';
@@ -23,10 +23,10 @@ ReactDOM.render((
     <Card>
       <Router history={browserHistory}>
         <Route name="login" path="/" component={HomePage}/>
-        <Route name="issue" path="/issue" component={IssueForm}/>
-        <Route name="returnbook" path="/returnbook" component={ReturnBookForm}/>
-        <Route name="add" path="/add" component={AddBookForm}/>
-        <Route name="register" path="/register" component={RegisterBorrower}/>
+            <Route name="issue" path="/admin/issue" component={IssueForm}/>
+            <Route name="returnbook" path="/admin/returnbook" component={ReturnBookForm}/>
+            <Route name="add" path="/admin/add" component={AddBookForm}/>
+            <Route name="register" path="/admin/register" component={RegisterBorrower}/>
       </Router>
     </Card>
   </div>
@@ -36,13 +36,13 @@ ReactDOM.render((
   <div>
     <Card>
       <Router history={browserHistory}>
-        <Route name="login" path="/" component={Login}/>
-        <Route name="issue" path="/issue" component={Login}/>
-        <Route name="returnbook" path="/returnbook" component={Login}/>
-        <Route name="add" path="/add" component={Login}/>
-        <Route name="register" path="/register" component={Login}/>
+        <Route name="login" path="/" component={PanelLeft}/>
+          <Route name="issue" path="/admin/issue" component={PanelLeft}/>
+          <Route name="returnbook" path="/admin/returnbook" component={PanelLeft}/>
+          <Route name="add" path="/admin/add" component={PanelLeft}/>
+          <Route name="register" path="/admin/register" component={PanelLeft}/>
       </Router>
     </Card>
   </div>
 ),
-document.getElementById('content'));
+document.getElementById('rightPanel'));

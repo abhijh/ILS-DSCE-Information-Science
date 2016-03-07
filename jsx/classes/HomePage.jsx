@@ -21,6 +21,7 @@ var HomePage = React.createClass({
              />
            <br/>
            <br/>
+           {this.props.children}
       </div>
     );
   }

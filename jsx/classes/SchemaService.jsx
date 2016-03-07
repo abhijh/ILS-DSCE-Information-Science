@@ -1,10 +1,27 @@
 module.exports = {
+loginCall: function(data){
+  $.ajax({
+  type: "POST",
+  url: '/api/login/',
+  data: JSON.stringify(data),
+  contentType: 'application/json',
+  success: function(data) {
+        return data;
+      },
+  processData: false
+
+});
+
+},
 bookRegister: function(bookInfo){
   $.ajax({
   type: "POST",
   url: '/api/registerbook/',
   data: JSON.stringify(bookInfo),
   contentType: 'application/json',
+  success: function(data) {
+        return data;
+      },
   processData: false
 
 });
