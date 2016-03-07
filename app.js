@@ -1,4 +1,6 @@
 var express = require('express');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -21,12 +23,14 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/')));
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://0.0.0.0/library');
 
 var borrowers = mongoose.model('borrowers', { name: String, role : String, id : String, booksIssued : [{ name : String, accessionNumber: String, issuedOn : String }] });
+var users = mongoose.model('users', { name: String, username : String, password : String, privilege : String });
 var books = mongoose.model('books', { name: String, accessionNumber : Number, category : String, author : String, publication : String, edition : String, status : String });
 
 rest.post('/api/registerbook/', function(req, res) {
@@ -138,6 +142,39 @@ rest.post('/api/getallbooks/', function(req, res) {
             res.ok(book);
     });
 });
+
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    users.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (user.password != password) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
+
+app.post('/login',
+  passport.authenticate('local'),
+  function(req, res) {
+    // If this function gets called, authentication was successful.
+    // `req.user` contains the authenticated user.
+    res.redirect("/"+req.user.privilege+"/"+req.user.username);
+});
+
 
 
 
