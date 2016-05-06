@@ -6,6 +6,26 @@ import TextField from 'material-ui/lib/text-field';
 import SchemaService from './SchemaService.jsx'
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import MyRawTheme from './MyTheme.jsx';
+import Card from 'material-ui/lib/card/card';
+import CardActions from 'material-ui/lib/card/card-actions';
+import CardHeader from 'material-ui/lib/card/card-header';
+import CardMedia from 'material-ui/lib/card/card-media';
+import CardTitle from 'material-ui/lib/card/card-title';
+import FlatButton from 'material-ui/lib/flat-button';
+import CardText from 'material-ui/lib/card/card-text';
+import Paper from 'material-ui/lib/paper';
+import AutoComplete from 'material-ui/lib/auto-complete';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+
+
+
+const style = {
+  
+  textAlign: 'center',
+  display: 'inline-block',
+
+};
+
 
 var ReturnBookForm = React.createClass({
   submitForm: function (model) {
@@ -20,25 +40,28 @@ var ReturnBookForm = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <h1>Return Book</h1>
-        <Formsy.Form
-          onValidSubmit={this.submitForm}>
-        <FormsyText
-           name="accessionNumber"
-           required
-           floatingLabelText="Accession Number"
-         />
-       <br/>
-         <FormsyText
-            name="bid"
-            required
-            floatingLabelText="Book ID"
-          />
-        <br/>
-        <RaisedButton type="submit" label="Return" secondary={true} />
-        </Formsy.Form>
-      </div>
+      <div  >
+       <Paper style={style} zDepth={3} rounded={false} children={
+          <card >
+                <form onSubmit={this.submitForm}>
+                    <CardHeader title="RETURN  BOOK"/><br/>
+                      <CardText>
+                         <TextField
+                            hintText="Enter the Number:"
+                            floatingLabelText = "AccessionNumber"
+                            required
+                          /><br/>
+                           <TextField
+                            hintText="Enter the ID:"
+                            floatingLabelText = "Book ID"
+                            required
+                          /><br/><br/>
+                      </CardText>
+                    <RaisedButton type="submit" label="Return" secondary={true} /><br/><br/>
+                </form>
+        </card>
+      }/>
+    </div>
     );
   }
 

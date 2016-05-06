@@ -3,7 +3,10 @@ import RaisedButton from 'material-ui/lib/raised-button';
 
 
 var HomePage = React.createClass({
-
+  _handleClick(e) {
+    e.preventDefault();
+    this.refs.sidebar.handleToggle();
+  },
   render: function() {
     return (
       <div className="homepage">
@@ -16,9 +19,6 @@ var HomePage = React.createClass({
         of in department libray of Information Science Department</h3>
         <br/>
         <h3 id="homePageHeader">You can click the top left corner to continue exploring features of the system.</h3>
-        <RaisedButton
-            label="Start"
-             />
            <br/>
            <br/>
            {this.props.children}
