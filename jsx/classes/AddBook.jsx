@@ -4,9 +4,27 @@ const { FormsyCheckbox, FormsyDate, FormsyRadio, FormsyRadioGroup, FormsySelect,
 import RaisedButton from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
 import SchemaService from './SchemaService.jsx'
-import Snackbar from 'material-ui/lib/snackbar';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import MyRawTheme from './MyTheme.jsx';
+import Card from 'material-ui/lib/card/card';
+import CardActions from 'material-ui/lib/card/card-actions';
+import CardHeader from 'material-ui/lib/card/card-header';
+import CardMedia from 'material-ui/lib/card/card-media';
+import CardTitle from 'material-ui/lib/card/card-title';
+import FlatButton from 'material-ui/lib/flat-button';
+import CardText from 'material-ui/lib/card/card-text';
+import Paper from 'material-ui/lib/paper';
+import AutoComplete from 'material-ui/lib/auto-complete';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+import Snackbar from 'material-ui/lib/snackbar';
+
+const style = {
+  
+  textAlign: 'center',
+  display: 'inline-block',
+
+};
+
 
 var AddBookForm = React.createClass({
   childContextTypes: {
@@ -23,76 +41,89 @@ var AddBookForm = React.createClass({
       open: false,
     });
   },
-  submitForm: function (model) {
-    //var returnValue = SchemaService.bookRegister(model);
-    //console.log(returnValue);
+  handleTouchTap : function(){
+    this.setState({
+      open: true,
+    });
+  },
+  componentDidMount: function () {
+    var $name = $("#name");
+   $("#add-button").on("click",function(){
+    var order = {
+      name : $name.val(),
+    };
+   
     $.ajax({
-    type: "POST",
-    url: '/api/registerbook/',
-    data: JSON.stringify(model),
-    success: function() {
-          this.setState({open: true});
-        }.bind(this),
-    error: function(xhr, status, err) {
-       console.error(status, err.toString());
-     }.bind(this)
-
+      type: "POST",
+      url : "/api/getallbooks/",
+      data : order,
+      success: function(dataval){
+        console.log("book added");
+        }
+    });
   });
-  console.log("Model: ", model);
+  
   },
   render: function() {
     return (
       <div>
-        <h1>Add Book</h1>
-        <Formsy.Form
-          onValidSubmit={this.submitForm}>
-          <FormsyText
-            name="name"
-            required
+      <Paper style={style} zDepth={3} rounded={false} children={
+        <card>
+        <form  >
+        <CardHeader title="ADD BOOK"/><br/>
+        <CardText>
+          <TextField
+            hintText="Name"
+            name ="name"
+            id="name"
             floatingLabelText="Book Name"
             />
           <br/>
-          <FormsyText
-            name="accessionNumber"
-            required
+          <TextField
+            hintText="AccessionNumber"
+            
             floatingLabelText="Accession Number"
             />
           <br/>
-          <FormsyText
-            name="category"
-            required
+          <TextField
+            hintText="Category"
+            
             floatingLabelText="Category"
             />
           <br/>
-          <FormsyText
-            name="author"
-            required
+          <TextField
+            hintText=" Enter the Author"
+            
             floatingLabelText="Author"
             />
           <br/>
-          <FormsyText
-            name="publication"
-            required
+          <TextField
+            hintText="Publication"
+            
             floatingLabelText="Publication"
             />
           <br/>
-          <FormsyText
-            name="edition"
-            required
+          <TextField
+            hintText="Edition"
+            
             floatingLabelText="Edition"
             />
           <br/>
+          </CardText>
           <RaisedButton
-            type="submit"
+            onTouchTap={this.handleTouchTap}
+            id="add-button"
             label="Add Book"
-            secondary={true} />
-        </Formsy.Form>
+            secondary={true} /><br/><br/>
+        </form>
         <Snackbar
           open={this.state.open}
-          message="Event added to your calendar"
+          message="Book Added !"
           autoHideDuration={4000}
           onRequestClose={this.handleRequestClose}
         />
+        </card>
+      }/>
       </div>
     );
   }

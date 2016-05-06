@@ -10,6 +10,7 @@ import ReturnBookForm from './jsx/classes/ReturnBook.jsx'
 import AddBookForm from './jsx/classes/AddBook.jsx'
 import RegisterBorrower from './jsx/classes/Register.jsx'
 import HomePage from './jsx/classes/HomePage.jsx'
+import SearchBook from './jsx/classes/SearchBook.jsx'
 import { browserHistory } from 'react-router'
 import Paper from 'material-ui/lib/paper';
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -20,29 +21,30 @@ ReactDOM.render((
     <br/>
     <br/>
     <br/>
-    <Card>
+    
       <Router history={browserHistory}>
         <Route name="login" path="/" component={HomePage}/>
-            <Route name="issue" path="/admin/issue" component={IssueForm}/>
+            <Route name="issue" path="/admin/issue" component={IssueForm}/>                                                         
             <Route name="returnbook" path="/admin/returnbook" component={ReturnBookForm}/>
-            <Route name="add" path="/admin/add" component={AddBookForm}/>
+            <Route name="add" path="/admin/add" component={AddBookForm}/>                                                              
             <Route name="register" path="/admin/register" component={RegisterBorrower}/>
+            <Route name="search" path="/search" component={SearchBook}/>
       </Router>
-    </Card>
+    
   </div>
 ),
 document.getElementById('leftPanel'));
 ReactDOM.render((
   <div>
-    <Card>
+    
       <Router history={browserHistory}>
         <Route name="login" path="/" component={PanelLeft}/>
-          <Route name="issue" path="/admin/issue" component={PanelLeft}/>
+          <Route name="issue" path="/admin/issue" component={PanelLeft}/>                                                                                        
           <Route name="returnbook" path="/admin/returnbook" component={PanelLeft}/>
-          <Route name="add" path="/admin/add" component={PanelLeft}/>
+          <Route name="add" path="/admin/add" component={PanelLeft}/>                                                                                     
           <Route name="register" path="/admin/register" component={PanelLeft}/>
       </Router>
-    </Card>
+    
   </div>
 ),
 document.getElementById('rightPanel'));

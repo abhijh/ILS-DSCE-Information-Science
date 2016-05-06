@@ -5,8 +5,8 @@ body #homePageHeader {
   color: white;
 }
 
-a {
-  color: #00B7FF;
+#pages {
+  color: rgb(3,169,244);
 }
 
 .cardStyle {
