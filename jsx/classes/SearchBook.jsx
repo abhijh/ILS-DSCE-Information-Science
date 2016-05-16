@@ -12,23 +12,26 @@ import IconButton from 'material-ui/lib/icon-button';
 import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/lib/table';
 
+import Tablevalues from "./Tablevalues.jsx";
 
 var SearchBook = React.createClass({
   getInitialState: function(props){
     return {
-      Book : {}
+      Book : []
     }
   },
-  componentDidMount: function(){
+  loadData : function (){
     $.ajax({
       type:"GET",
       url:"/searchresult",
       success:function(data){
-        
-        this.setState({Book:data[0]});
-        
+        this.setState({Book:data});
       }.bind(this)
     });
+  },
+  componentDidMount: function(){
+    this.loadData();
+    
   },
   render: function() {
 
@@ -45,17 +48,9 @@ var SearchBook = React.createClass({
               <TableRowColumn>Publication</TableRowColumn>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableRowColumn>{this.state.Book.name}</TableRowColumn>
-              <TableRowColumn>{this.state.Book.accessionNumber}</TableRowColumn>
-              <TableRowColumn>{this.state.Book.author}</TableRowColumn>
-              <TableRowColumn>{this.state.Book.category}</TableRowColumn>
-              <TableRowColumn>{this.state.Book.edition}</TableRowColumn>
-              <TableRowColumn>{this.state.Book.publication}</TableRowColumn>
-            </TableRow>
-          </TableBody>
-        </Table>    
+          
+        </Table>   
+        <Tablevalues tableValues = {this.state.Book}/> 
       </div>
     );
   }

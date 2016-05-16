@@ -84,22 +84,7 @@ const Layout = React.createClass({
         this.setState({books : data});
         }.bind(this)
     });
-    var $searchVal = $("#search");
-   $("#submit-button").on("click",function(){
-    var data = {
-      value : $searchVal.val(),
-    };
-    $.ajax({
-      type: "POST",
-      url : "/api/search/",
-      data : data,
-      success: function(dataval){
-        console.log("serach successful");
-          
-
-        }
-    });
-  });
+   
   },
   getChildContext() {
     return {muiTheme: ThemeManager.getMuiTheme(MyRawTheme)};
@@ -107,6 +92,25 @@ const Layout = React.createClass({
   _handleClick(e) {
     e.preventDefault();
     this.refs.sidebar.handleToggle();
+  },
+  handleClick() {
+  
+   
+    var $searchVal = $("#search");
+    var $table = $("#table");
+    var data = {
+      values : 1,
+      searchValue : $searchVal.val(),
+    };
+    $.ajax({
+      type: "POST",
+      url : "/api/search/",
+      data : data,
+      success: function(dataval){
+          
+        }
+    });
+  
   },
   render() {
     return <div className="page">
@@ -123,13 +127,17 @@ const Layout = React.createClass({
           dataSource={this.state.books}
           id="search"
           />
-           <Link to="search">
+          <Link to="search">
           <FlatButton
            label="Search"
             default={true}
             type="submit" 
             id="submit-button"
+            onClick = {this.handleClick}
             />
+          </Link>
+          <Link to="advancedsearch">
+            <p>Advanced search</p>
           </Link>
           </div>
         }

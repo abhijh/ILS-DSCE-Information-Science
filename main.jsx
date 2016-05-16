@@ -11,6 +11,7 @@ import AddBookForm from './jsx/classes/AddBook.jsx'
 import RegisterBorrower from './jsx/classes/Register.jsx'
 import HomePage from './jsx/classes/HomePage.jsx'
 import SearchBook from './jsx/classes/SearchBook.jsx'
+import AdvancedSearch from './jsx/classes/AdvancedSearch.jsx'
 import { browserHistory } from 'react-router'
 import Paper from 'material-ui/lib/paper';
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -29,6 +30,7 @@ ReactDOM.render((
             <Route name="add" path="/admin/add" component={AddBookForm}/>                                                              
             <Route name="register" path="/admin/register" component={RegisterBorrower}/>
             <Route name="search" path="/search" component={SearchBook}/>
+            <Route name="advancedsearch" path="/advancedsearch" component={AdvancedSearch}/>
       </Router>
     
   </div>

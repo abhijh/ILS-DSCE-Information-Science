@@ -33,7 +33,7 @@ mongoose.connect('mongodb://0.0.0.0/library');
 var borrowers = mongoose.model('borrowers', { name: String, role : String, id : String, booksIssued : [{ name : String, accessionNumber: String, issuedOn : String }] });
 var users = mongoose.model('users', { name: String, username : String, password : String, privilege : String });
 var books = mongoose.model('books', { name: String, accessionNumber : Number, category : String, author : String, publication : String, edition : String });
-var search = mongoose.model("search",{value: String});
+var search = mongoose.model("search",{value: String , no : Number});
 
 
 rest.post('/api/registerbook/', function(req, res) {
@@ -164,19 +164,21 @@ app.post("/api/search",function(req,res){
         }
     });
     
-    books.find({name:req.body.value},function(err,data){
-        if(err){
-            res.send("no such book exist");
-        }
+   
+        
         var searchval = new search();
-        searchval.value= data[0].name ;
+        searchval.value= req.body.searchValue ;
+        searchval.no = req.body.values;
         searchval.save(function(err,data){
             if(err){
                 console.log("error");
             }
-            res.send(data.value);
+            res.send(data);
         });
-    });
+    
+    
+    
+    
     
     });
 
@@ -186,10 +188,44 @@ app.get("/searchresult",function(req,res){
         if(err){
             console.log("error in finding");
         }
-        books.find({name:data[0].value},function(err,data){
-            res.send(data);
-        });
+        switch(data[0].no){
+            case 1 :
+                    books.find({name:data[0].value}, function (err, book) {
+                        if (err || book == null) {
+                            res.send("error");
+                        } else
+                        res.send(book);    
+                    });
+                    break;
+            case 2 :
+                    books.find({author:data[0].value}, function (err, book) {
+                        if (err || book == null) {
+                            res.send("error");
+                        } else
+                        res.send(book);    
+                    });
+                    break;
+            case 3 :
+                    books.find({publication:data[0].value}, function (err, book) {
+                        if (err || book == null) {
+                            res.send("error");
+                        } else
+                        res.send(book);    
+                    }); 
+                    break;
+            case 4 :
+                    books.find({category:data[0].value}, function (err, book) {
+                        if (err || book == null) {
+                            res.send("error");
+                        } else
+                        res.send(book);    
+                    });
+                    break;
+            default : res.send("error");
+
+        }
         
+       
     });
 });
 
