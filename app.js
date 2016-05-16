@@ -32,7 +32,7 @@ mongoose.connect('mongodb://0.0.0.0/library');
 
 var borrowers = mongoose.model('borrowers', { name: String, role : String, id : String, booksIssued : [{ name : String, accessionNumber: String, issuedOn : String }] });
 var users = mongoose.model('users', { name: String, username : String, password : String, privilege : String });
-var books = mongoose.model('books', { name: String, accessionNumber : Number, category : String, author : String, publication : String, edition : String, status : String });
+var books = mongoose.model('books', { name: String, accessionNumber : Number, category : String, author : String, publication : String, edition : String });
 var search = mongoose.model("search",{value: String});
 
 
@@ -51,14 +51,14 @@ rest.post('/api/registerbook/', function(req, res) {
 });
 
 app.post("/api/getallbooks/",function(req,res){
-    
+
     var book = new books(req.body);
     book.save(function (err) {
         if (err) {
             console.log('Error occured while registering new book.'+err);
             
         } else {
-            console.log("created");
+            console.log(req.body);
         }
     });
     books.find({}, function (err, book) {
@@ -163,28 +163,46 @@ app.post("/api/search",function(req,res){
             console.log("error in deleting");
         }
     });
-    var searchVal = new search();
-    searchVal.value = req.body.value;
-    searchVal.save(function(err,data){
+    
+    books.find({name:req.body.value},function(err,data){
         if(err){
-            console.log("error in saving");
+            res.send("no such book exist");
         }
-        else{
-            
+        var searchval = new search();
+        searchval.value= data[0].name ;
+        searchval.save(function(err,data){
+            if(err){
+                console.log("error");
+            }
             res.send(data.value);
-
-        }
+        });
     });
-});
+    
+    });
 
 app.get("/searchresult",function(req,res){
 
     search.find({},function(err,data){
         if(err){
-            console.log("error is finding");
+            console.log("error in finding");
         }
+        books.find({name:data[0].value},function(err,data){
+            res.send(data);
+        });
         
-        res.send(data[0].value);
+    });
+});
+
+app.get("/getbooknames",function(req,res){
+    books.find({}, function (err, book) {
+        if (err || book == null) {
+            res.send("error");
+        } else
+           var bookvalue = [];
+            book.forEach(function(data){
+                bookvalue.push(data.name);
+            });
+        res.send(bookvalue);    
     });
 });
 
@@ -197,7 +215,7 @@ app.get('/api/getallbooks/', function(req, res) {
         } else
            var bookvalue = [];
             book.forEach(function(data){
-                bookvalue.push(data.name);
+                bookvalue.push(data);
             });
         res.send(bookvalue);    
     });

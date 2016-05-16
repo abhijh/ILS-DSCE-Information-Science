@@ -10,19 +10,23 @@ import AutoComplete from 'material-ui/lib/auto-complete';
 import AppBar from 'material-ui/lib/app-bar';
 import IconButton from 'material-ui/lib/icon-button';
 import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/lib/table';
 
 
 var SearchBook = React.createClass({
   getInitialState: function(props){
-    return {bookName : "khnoirh"}
+    return {
+      Book : {}
+    }
   },
   componentDidMount: function(){
     $.ajax({
       type:"GET",
       url:"/searchresult",
       success:function(data){
-        console.log(data);
-        this.setState({bookName:data});
+        
+        this.setState({Book:data[0]});
+        
       }.bind(this)
     });
   },
@@ -30,7 +34,28 @@ var SearchBook = React.createClass({
 
     return (
       <div >
-        <h2>{this.state.bookName}</h2>  
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableRowColumn>Name</TableRowColumn>
+              <TableRowColumn>Number</TableRowColumn>
+              <TableRowColumn>Author</TableRowColumn>
+              <TableRowColumn>Category</TableRowColumn>
+              <TableRowColumn>Edition</TableRowColumn>
+              <TableRowColumn>Publication</TableRowColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableRowColumn>{this.state.Book.name}</TableRowColumn>
+              <TableRowColumn>{this.state.Book.accessionNumber}</TableRowColumn>
+              <TableRowColumn>{this.state.Book.author}</TableRowColumn>
+              <TableRowColumn>{this.state.Book.category}</TableRowColumn>
+              <TableRowColumn>{this.state.Book.edition}</TableRowColumn>
+              <TableRowColumn>{this.state.Book.publication}</TableRowColumn>
+            </TableRow>
+          </TableBody>
+        </Table>    
       </div>
     );
   }

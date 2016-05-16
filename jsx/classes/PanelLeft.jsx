@@ -78,8 +78,9 @@ const Layout = React.createClass({
   componentDidMount(){
     $.ajax({
       type:"GET",
-      url:"/api/getallbooks/",
+      url:"/getbooknames/",
       success: function(data){
+        
         this.setState({books : data});
         }.bind(this)
     });
@@ -93,7 +94,9 @@ const Layout = React.createClass({
       url : "/api/search/",
       data : data,
       success: function(dataval){
-        console.log(dataval);
+        console.log("serach successful");
+          
+
         }
     });
   });
