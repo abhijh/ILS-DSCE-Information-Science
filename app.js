@@ -9,9 +9,9 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-expressRest = require('express-rest');
+
 var app = express();
-var rest = expressRest(app);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -30,25 +30,13 @@ app.use(passport.session());
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://0.0.0.0/library');
 
-var borrowers = mongoose.model('borrowers', { name: String, role : String, id : String, booksIssued : [{ name : String, accessionNumber: String, issuedOn : String }] });
-var users = mongoose.model('users', { name: String, username : String, password : String, privilege : String });
+var borrowers = mongoose.model('borrowers', { usn: String, booksIssued : Array });
+var users = mongoose.model('users', { name: String, usn : String});
 var books = mongoose.model('books', { name: String, accessionNumber : Number, category : String, author : String, publication : String, edition : String });
 var search = mongoose.model("search",{value: String , no : Number});
 
 
-rest.post('/api/registerbook/', function(req, res) {
-    req.body.status = "available";
-    var book = new books(req.body);
-    console.log(req.body, book)
-    book.save(function (err) {
-        if (err) {
-            console.log('Error occured while registering new book.'+err);
-            res.badRequest();
-        } else {
-            res.created();
-        }
-    });
-});
+
 
 app.post("/api/getallbooks/",function(req,res){
 
@@ -70,91 +58,70 @@ app.post("/api/getallbooks/",function(req,res){
 
 });
 
-rest.post('/api/registerborrower/', function(req, res) {
-    var borrower = new borrowers(req.body);
-    borrower.save(function (err) {
-        if (err) {
-            console.log('Error occured while registering new borrower.'+err);
-            res.badRequest();
-        } else {
-            console.log('Registration Successful.');
-            res.created();
-        }
+app.post('/issue',function (req,res) {
+    books.find({name:req.body.bookname}, function (err, books) {
+        if (err || books == null) {
+            res.send("error");
+        } else
+            if (books.length > 1){
+                res.send("Books are repeated");
+            }
+            else {
+                borrowers.find({usn: req.body.usnissue},function (err,bow) {
+                     if (bow.length==0){
+                         var borrower = new borrowers;
+                         borrower.usn = req.body.usnissue;
+                         borrower.booksIssued.push(books[0]);
+                         borrower.save(function (err) {
+                             if (err){
+                                 console.log("error");
+                             }
+                         });
+                     }
+                     else {
+                         var oldBooks = bow[0].booksIssued;
+                         oldBooks.push(books[0]);
+                         borrowers.update({usn:req.body.usnissue},{booksIssued:oldBooks},function (err) {
+                            if (err)console.log("err");
+                         });
+                     }
+                });
+
+            }
+
     });
 });
 
-rest.post('/api/issuebook/', function(req, res) {
-    var bid = req.body.bid;
-    var accessionNumber = req.body.accessionNumber;
-    function checkBookIssued (accessionNumber, id) {
-        //Check book issued to this borrower or not
+app.post('/return',function (req,res) {
+    var id = parseInt(req.body.bookid);
+        borrowers.update({usn:req.body.usnVal},{$pull : { "booksIssued" :{"accessionNumber" : id}}},function(err,up){
+            if(err){
+                console.log("error");
+            }
+            else{
+                console.log("returned");
+            }
+        });
+
+});
+
+app.post("/AdminLogin",function(req,res){
+    console.log(req.body.Key);
+    if(req.body.Key=="admin"){
+        res.redirect("/Admindashboard");
     }
-    borrowers.findOne({ 'id' : bid }, function (err, borrower) {
-        if (err) {
-            console.log("Borrower not found.");
-            res.badRequest();
-        } else {
-            books.findOne({ "accessionNumber": accessionNumber }, function (err, book) {
-                if (err || book == null) {
-                    console.log("Book not found.");
-                    res.badRequest();
-                } else {
-                    var datetime = new Date();
-                    borrower.booksIssued.push({ "accessionNumber" : accessionNumber, "issuedOn" : datetime });
-                    borrower.save(function (err) {
-                        if (err) {
-                            console.log('Error occured while issuing book.'+err);
-                            res.badRequest();
-                        } else {
-                            res.created();
-                        }
-                    });
-                }
-            });
-        }
-    });
 });
 
+app.post("/StudentLogin",function(req,res){
+    res.redirect("/dash")
+});
 
+app.get("/Admindashboard",function(req,res){
+    res.render("index");
+});
 
-rest.post('/api/returnbook/', function(req, res) {
-    var bid = req.body.bid;
-    var accessionNumber = req.body.accessionNumber;
-
-
-    borrowers.findOne({ 'id' : bid }, function (err, borrower) {
-        if (err) {
-            console.log("Borrower not found.");
-            res.badRequest();
-        } else {
-            books.findOne({ "accessionNumber": accessionNumber }, function (err, book) {
-                if (err || book == null) {
-                    console.log("Book not found.");
-                    res.badRequest();
-                } else {
-                    borrower.booksIssued = null;
-                    borrower.save(function (err) {
-                        if (err) {
-                            console.log('Error occured while returning book.'+err);
-                            res.badRequest();
-                        } else {
-                            res.created();
-                        }
-                    });
-                    var datetime = new Date();
-                    book.history = { 'bid' : borrower.id, 'returnDate' : datetime };
-                    book.save(function (err) {
-                        if (err) {
-                            console.log('Error occured while returning book.'+err);
-                            res.badRequest();
-                        } else {
-                            res.created();
-                        }
-                    });
-                }
-            });
-        }
-    });
+app.get("/dash",function(req,res){
+   res.render("index"); 
 });
 
 app.post("/api/search",function(req,res){
@@ -163,9 +130,6 @@ app.post("/api/search",function(req,res){
             console.log("error in deleting");
         }
     });
-    
-   
-        
         var searchval = new search();
         searchval.value= req.body.searchValue ;
         searchval.no = req.body.values;
@@ -175,11 +139,6 @@ app.post("/api/search",function(req,res){
             }
             res.send(data);
         });
-    
-    
-    
-    
-    
     });
 
 app.get("/searchresult",function(req,res){
@@ -224,8 +183,6 @@ app.get("/searchresult",function(req,res){
             default : res.send("error");
 
         }
-        
-       
     });
 });
 

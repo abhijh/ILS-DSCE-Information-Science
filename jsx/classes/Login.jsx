@@ -20,7 +20,7 @@ var LoginForm = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <div >
         <h1>Issue Form</h1>
         <Formsy.Form
           onValidSubmit={this.submitForm}>

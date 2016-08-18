@@ -1,19 +1,9 @@
 import React from 'react';
-
 import {Router, Route, IndexRoute, Link} from 'react-router';
-import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item';
-import ThemeManager from 'material-ui/lib/styles/theme-manager';
-import MyRawTheme from './MyTheme.jsx';
-import Card from 'material-ui/lib/card/card';
-import AutoComplete from 'material-ui/lib/auto-complete';
-import AppBar from 'material-ui/lib/app-bar';
-import IconButton from 'material-ui/lib/icon-button';
-import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/lib/table';
 import SelectField from 'material-ui/lib/SelectField';
 import TextField from 'material-ui/lib/TextField';
-import FlatButton from 'material-ui/lib/flat-button';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 
 const styles = {
@@ -56,6 +46,7 @@ var AdvancedSearch = React.createClass({
           floatingLabelFixed={true}
           id="serchvalue"
         />
+        <br/>
         <SelectField value={this.state.value} onChange={this.handleChange}>
           <MenuItem value={1} primaryText="Book Name" />
           <MenuItem value={2} primaryText="Author" />
@@ -63,9 +54,9 @@ var AdvancedSearch = React.createClass({
           <MenuItem value={4} primaryText="Category" />
         </SelectField><br/><br/>
         <Link to="search">
-        <FlatButton
+        <RaisedButton
            label="Search"
-            secondary={true}
+            style = {styles}
             type="submit" 
             id="submit-button"
             onClick = {this.handleClick}

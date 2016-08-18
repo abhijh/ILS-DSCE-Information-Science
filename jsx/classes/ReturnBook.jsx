@@ -38,26 +38,42 @@ var ReturnBookForm = React.createClass({
   getChildContext() {
     return {muiTheme: ThemeManager.getMuiTheme(MyRawTheme)};
   },
+  handleClick(){
+      var $booknum = $("#aNum");
+      var $usn = $("#Usn");
+      var data = {
+          bookid : $booknum.val(),
+          usnVal : $usn.val(),
+      };
+      $.ajax({
+          type: "POST",
+          url : "/return",
+          data : data,
+          success: function(dataval){}
+      });
+  },
   render: function() {
     return (
-      <div  >
+      <div className = "child" >
        <Paper style={style} zDepth={3} rounded={false} children={
           <card >
                 <form onSubmit={this.submitForm}>
                     <CardHeader title="RETURN  BOOK"/><br/>
                       <CardText>
                          <TextField
-                            hintText="Enter the Number:"
-                            floatingLabelText = "AccessionNumber"
+                            hintText="Enter the USN:"
+                            floatingLabelText = "Student USN"
+                            id = "Usn"
                             required
                           /><br/>
                            <TextField
                             hintText="Enter the ID:"
-                            floatingLabelText = "Book ID"
+                            floatingLabelText = "Accession number:"
                             required
+                            id = "aNum"
                           /><br/><br/>
                       </CardText>
-                    <RaisedButton type="submit" label="Return" secondary={true} /><br/><br/>
+                    <RaisedButton  label="Return" secondary={true} onClick={this.handleClick} /><br/><br/>
                 </form>
         </card>
       }/>

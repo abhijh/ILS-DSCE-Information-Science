@@ -76,7 +76,7 @@ var AddBookForm = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <div className = "child">
       <Paper style={style} zDepth={3} rounded={false} children={
         <card>
         <form  >
