@@ -48,9 +48,19 @@ var AddBookForm = React.createClass({
   },
   componentDidMount: function () {
     var $name = $("#name");
+    var $AccessionNumber = $("#AccessionNumber");
+    var $Category = $("#Category");
+    var $Author = $("#Author");
+    var $Publication = $("#Publication");
+    var $Edition = $("#Edition");
    $("#add-button").on("click",function(){
     var order = {
       name : $name.val(),
+      accessionNumber : $AccessionNumber.val(),
+      category : $Category.val(),
+      author : $Author.val(),
+      publication : $Publication.val(),
+      edition : $Edition.val(),
     };
    
     $.ajax({
@@ -66,7 +76,7 @@ var AddBookForm = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <div className = "child">
       <Paper style={style} zDepth={3} rounded={false} children={
         <card>
         <form  >
@@ -81,32 +91,41 @@ var AddBookForm = React.createClass({
           <br/>
           <TextField
             hintText="AccessionNumber"
-            
+            name ="AccessionNumber"
+            id="AccessionNumber"
             floatingLabelText="Accession Number"
             />
           <br/>
           <TextField
             hintText="Category"
-            
+            name ="Category"
+            id="Category"
             floatingLabelText="Category"
+            required
             />
           <br/>
           <TextField
             hintText=" Enter the Author"
-            
+            name ="Author"
+            id="Author"
             floatingLabelText="Author"
+          required
             />
           <br/>
           <TextField
             hintText="Publication"
-            
+            name ="Publication"
+            id="Publication"
             floatingLabelText="Publication"
+            required
             />
           <br/>
           <TextField
             hintText="Edition"
-            
+            name ="Edition"
+            id="Edition"
             floatingLabelText="Edition"
+            required
             />
           <br/>
           </CardText>

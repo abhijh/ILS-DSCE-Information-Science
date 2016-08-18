@@ -1,5 +1,8 @@
 import React from'react';
 import RaisedButton from 'material-ui/lib/raised-button';
+import {Router, Route, IndexRoute, Link} from 'react-router';
+
+
 
 
 var HomePage = React.createClass({
@@ -9,23 +12,24 @@ var HomePage = React.createClass({
   },
   render: function() {
     return (
-      <div className="homepage">
-        <br/>
-        <br/>
-        <img src="../../public/images/banner-dayananda-sagar-college-of0engineering.jpg"/>
-        <br/>
-        <h1 id="homePageHeader"> Library Management System</h1>
-        <h3 id="homePageHeader">This is Library Management System designed to facilitate the wroking
-        of in department libray of Information Science Department</h3>
-        <br/>
-        <h3 id="homePageHeader">You can click the top left corner to continue exploring features of the system.</h3>
-           <br/>
-           <br/>
-           {this.props.children}
-      </div>
+        <div className="homepage">
+          <br/>
+          <br/>
+          <img src="../../public/images/banner-dayananda-sagar-college-of0engineering.jpg"/>
+          <br/>
+          <h1 id="homePageHeader"> Library Management System</h1>
+          <h3 id="homePageHeader">This is Library Management System designed to facilitate the wroking
+            of in department libray of Information Science Department</h3>
+          <br/>
+          <br/>
+          {this.props.children}
+          <br/>
+          <br/>
+        </div>
     );
   }
 
 });
+
 
 module.exports = HomePage;

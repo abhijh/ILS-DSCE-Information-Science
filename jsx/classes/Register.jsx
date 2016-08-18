@@ -43,7 +43,7 @@ var BorrowBookForm = React.createClass({
   handleChange: function(event, index, value){this.setState({value: event.target.value});},
   render: function() {
     return (
-      <div>
+      <div className = "child">
         <Paper style={style} zDepth={3} rounded={false} children={
           <card>
             <form onSubmit={this.submitForm}>
