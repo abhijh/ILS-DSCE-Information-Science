@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # ILS-DSCE-Information-Science
 An Integrated Library Management System
 
@@ -24,5 +24,4 @@ Open another terminal
 
 `npm start`
 =======
-# ILS
->>>>>>> 5a2b1abb4b5ad301948f497337cc7c12bc84d494
+
